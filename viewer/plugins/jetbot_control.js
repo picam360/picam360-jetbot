@@ -56,7 +56,7 @@ var create_plugin = (function() {
 							if (menu_visible) {
 								event = "BACK2PREVIOUSE_MENU";
 							} else {
-								event = "MOVE_FOWARD";
+								event = "MOVE_FORWARD";
 							}
 							break;
 						case "DOWN_BUTTON_DOWN" :
@@ -75,8 +75,8 @@ var create_plugin = (function() {
 			event_handler_act : function(event) {
 				var params = event.split(" ");
 				switch (params[0]) {
-					case "MOVE_FOWARD" :
-						var cmd = VEHICLE_DOMAIN + "move_foward";
+					case "MOVE_FORWARD" :
+						var cmd = VEHICLE_DOMAIN + "move_forward";
 						m_plugin_host.send_command(cmd);
 						break;
 					case "MOVE_BACKWARD" :
