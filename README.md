@@ -1,2 +1,2 @@
-# picam360tegra
-picam360-capture plugin for tegra
+# picam360-jetbot
+picam360 resources for jetbot
