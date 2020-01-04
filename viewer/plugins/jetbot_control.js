@@ -2,8 +2,9 @@ var create_plugin = (function() {
 	var m_plugin_host = null;
 	var m_is_init = false;
 
-	var SYSTEM_DOMAIN = UPSTREAM_DOMAIN + UPSTREAM_DOMAIN;
-	var VEHICLE_DOMAIN = UPSTREAM_DOMAIN + UPSTREAM_DOMAIN + "jetbot_service.";
+	var SERVER_DOMAIN = UPSTREAM_DOMAIN;
+	var CAPTURE_DOMAIN = SERVER_DOMAIN + UPSTREAM_DOMAIN;
+	var VEHICLE_DOMAIN = SERVER_DOMAIN + "jetbot_service.";
 
 	function init() {
 	}
@@ -28,28 +29,37 @@ var create_plugin = (function() {
 						case "G_BUTTON_UP" :
 							event = "MENU_VISIBLE";
 							break;
+						case "LEFT_BUTTON_UP" :
 						case "RIGHT_BUTTON_UP" :
+						case "UP_BUTTON_UP" :
+						case "DOWN_BUTTON_UP" :
 							if (menu_visible) {
-								event = "SELECT_ACTIVE_MENU";
 							} else {
-								event = "TURN_RIGHT";
+								event = "STOP";
 							}
 							break;
-						case "LEFT_BUTTON_UP" :
+						case "LEFT_BUTTON_DOWN" :
 							if (menu_visible) {
 								event = "DESELECT_ACTIVE_MENU";
 							} else {
 								event = "TURN_LEFT";
 							}
 							break;
-						case "UP_BUTTON_UP" :
+						case "RIGHT_BUTTON_DOWN" :
+							if (menu_visible) {
+								event = "SELECT_ACTIVE_MENU";
+							} else {
+								event = "TURN_RIGHT";
+							}
+							break;
+						case "UP_BUTTON_DOWN" :
 							if (menu_visible) {
 								event = "BACK2PREVIOUSE_MENU";
 							} else {
 								event = "MOVE_FOWARD";
 							}
 							break;
-						case "DOWN_BUTTON_UP" :
+						case "DOWN_BUTTON_DOWN" :
 							if (menu_visible) {
 								event = "GO2NEXT_MENU";
 							} else {
@@ -59,41 +69,6 @@ var create_plugin = (function() {
 					}
 				} else if (sender == "GAMEPAD") {
 					console.log(event);
-					switch (event) {
-						case "0_BUTTON_UP" :
-							event = "PID_ENABLED";
-							break;
-						case "1_BUTTON_UP" :
-							event = "STEREO_ENABLED";
-							break;
-						case "4_BUTTON_UP" :
-							event = "MENU_VISIBLE";
-							break;
-						case "4_AXIS_FORWARD_UP" :
-							if (menu_visible) {
-								event = "SELECT_ACTIVE_MENU";
-							}
-							break;
-						case "4_AXIS_BACKWARD_UP" :
-							if (menu_visible) {
-								event = "DESELECT_ACTIVE_MENU";
-							}
-							break;
-						case "5_AXIS_FORWARD_UP" :
-							if (menu_visible) {
-								event = "BACK2PREVIOUSE_MENU";
-							} else {
-								event = "INCREMENT_THRUST";
-							}
-							break;
-						case "5_AXIS_BACKWARD_UP" :
-							if (menu_visible) {
-								event = "GO2NEXT_MENU";
-							} else {
-								event = "DECREMENT_THRUST";
-							}
-							break;
-					}
 				}
 				plugin.event_handler_act(event);
 			},
@@ -130,19 +105,19 @@ var create_plugin = (function() {
 						m_plugin_host.set_menu_visible(menu_visible);
 						break;
 					case "SELECT_ACTIVE_MENU" :
-						m_plugin_host.send_command(SYSTEM_DOMAIN
+						m_plugin_host.send_command(CAPTURE_DOMAIN
 							+ "select_active_menu");
 						break;
 					case "DESELECT_ACTIVE_MENU" :
-						m_plugin_host.send_command(SYSTEM_DOMAIN
+						m_plugin_host.send_command(CAPTURE_DOMAIN
 							+ "deselect_active_menu");
 						break;
 					case "BACK2PREVIOUSE_MENU" :
-						m_plugin_host.send_command(SYSTEM_DOMAIN
+						m_plugin_host.send_command(CAPTURE_DOMAIN
 							+ "back2previouse_menu");
 						break;
 					case "GO2NEXT_MENU" :
-						m_plugin_host.send_command(SYSTEM_DOMAIN
+						m_plugin_host.send_command(CAPTURE_DOMAIN
 							+ "go2next_menu");
 						break;
 				}
