@@ -21,10 +21,9 @@ var create_plugin = (function() {
 				if (sender == "ICADE") {
 					switch (event) {
 						case "A_BUTTON_UP" :
-							event = "PID_ENABLED";
 							break;
 						case "B_BUTTON_UP" :
-							event = "STEREO_ENABLED";
+							event = "SWITCH_STEREO";
 							break;
 						case "G_BUTTON_UP" :
 							event = "MENU_VISIBLE";
@@ -95,10 +94,9 @@ var create_plugin = (function() {
 						var cmd = VEHICLE_DOMAIN + "stop";
 						m_plugin_host.send_command(cmd);
 						break;
-					case "STEREO_ENABLED" :
-						stereo_enabled = !stereo_enabled;
+					case "SWITCH_STEREO" :
 						m_plugin_host.send_command("set_stereo "
-							+ (stereo_enabled ? "1" : "0"));
+							+ (!stereo_enabled ? "1" : "0"));
 						break;
 					case "MENU_VISIBLE" :
 						menu_visible = !menu_visible;
@@ -119,6 +117,12 @@ var create_plugin = (function() {
 					case "GO2NEXT_MENU" :
 						m_plugin_host.send_command(CAPTURE_DOMAIN
 							+ "go2next_menu");
+						break;
+					case "STEREO_ENABLED" :
+						stereo_enabled = true;
+						break;
+					case "STEREO_DISABLED" :
+						stereo_enabled = false;
 						break;
 				}
 			},
