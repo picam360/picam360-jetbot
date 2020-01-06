@@ -27,19 +27,19 @@ var create_plugin = (function() {
 						break;
 					case "0_AXIS_FORWARD_UP":
 						sender = "ICADE";
-						event = "LEFT_BUTTON_UP";
+						event = "RIGHT_BUTTON_UP";
 						break;
 					case "0_AXIS_FORWARD_DOWN":
 						sender = "ICADE";
-						event = "LEFT_BUTTON_DOWN";
+						event = "RIGHT_BUTTON_DOWN";
 						break;
 					case "0_AXIS_BACKWARD_UP":
 						sender = "ICADE";
-						event = "RIGHT_BUTTON_UP";
+						event = "LEFT_BUTTON_UP";
 						break;
 					case "0_AXIS_BACKWARD_DOWN":
 						sender = "ICADE";
-						event = "RIGHT_BUTTON_DOWN";
+						event = "LEFT_BUTTON_DOWN";
 						break;
 					case "1_AXIS_FORWARD_UP":
 						sender = "ICADE";
