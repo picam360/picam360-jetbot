@@ -4,9 +4,9 @@ module.exports = {
 		var {PythonShell} = require('python-shell');
 
 		var m_duty = 50;// %
-		var pyshell = new PythonShell('plugins/jetbot_service.py');
+		var pyshell = new PythonShell(__dirname + '/jetbot_service.py');
 		pyshell.on('message', function (message) {
-			console.log(message);
+			console.log("jetbot_service.py : " + message);
 		});
 		pyshell.send('init');
 

@@ -3,6 +3,6 @@
     "plugin_paths" : [
          "plugins/foward_arrow.js",
          "plugins/gamepad.js",
-         "plugins/jetbot_control.js"
+         "plugins/jetbot/jetbot_control.js"
     ]
 }

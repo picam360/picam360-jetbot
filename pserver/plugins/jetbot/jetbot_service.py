@@ -51,5 +51,6 @@ for line in sys.stdin:
         break
     else:
         print(line)
+    sys.stdout.flush()
 
 print('finished')
