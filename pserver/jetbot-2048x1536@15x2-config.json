@@ -15,7 +15,7 @@
             "mux.vin0.capture.meta" : "<meta maptype=\"FISH\" lens_params=\"file://lens_params0.json\" />",
             "mux.vin0.capture.set_sharpness" : "7",
             "mux.vin0.capture.set_backlight_compensation" : "30",
-            "mux.vin1" : "v4l2_capture name=capture s=2048x1536@15:/dev/video1",
+            "mux.vin1" : "v4l2_capture name=capture s=2048x1536@15:/dev/video2",
             "mux.vin1.capture.meta" : "<meta maptype=\"FISH\" lens_params=\"file://lens_params1.json\" />",
             "mux.vin1.capture.set_sharpness" : "7",
             "mux.vin1.capture.set_backlight_compensation" : "30",
