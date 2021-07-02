@@ -25,7 +25,7 @@
     "params" : {
         "APP.SIZE" : "1440x720",
         "APP.CAM0" : "2048x1536@15:/dev/video0",
-        "APP.CAM1" : "2048x1536@15:/dev/video0"
+        "APP.CAM1" : "2048x1536@15:/dev/video1"
     },
     "pviewer_config_ext" : "www/jetbot-config.json",
     "license" : {
