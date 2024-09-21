@@ -17,102 +17,66 @@ var create_plugin = (function() {
 		var menu_visible = false;
 		var stereo_enabled = false;
 		var plugin = {
-			event_handler : function(sender, event) {
-				if (sender == "GAMEPAD") {//convert to ICADE event
-					console.log(event);
-					switch (event) {
-					case "0_BUTTON_UP":
-						break;
-					case "1_BUTTON_UP":
-						break;
-					case "0_AXIS_FORWARD_UP":
-						sender = "ICADE";
-						event = "RIGHT_BUTTON_UP";
-						break;
-					case "0_AXIS_FORWARD_DOWN":
-						sender = "ICADE";
-						event = "RIGHT_BUTTON_DOWN";
-						break;
-					case "0_AXIS_BACKWARD_UP":
-						sender = "ICADE";
-						event = "LEFT_BUTTON_UP";
-						break;
-					case "0_AXIS_BACKWARD_DOWN":
-						sender = "ICADE";
-						event = "LEFT_BUTTON_DOWN";
-						break;
-					case "1_AXIS_FORWARD_UP":
-						sender = "ICADE";
-						event = "DOWN_BUTTON_UP";
-						break;
-					case "1_AXIS_FORWARD_DOWN":
-						sender = "ICADE";
-						event = "DOWN_BUTTON_DOWN";
-						break;
-					case "1_AXIS_BACKWARD_UP":
-						sender = "ICADE";
-						event = "UP_BUTTON_UP";
-						break;
-					case "1_AXIS_BACKWARD_DOWN":
-						sender = "ICADE";
-						event = "UP_BUTTON_DOWN";
-						break;
-					}
+			event_handler : (sender, key, new_state) => {
+				if(!new_state){//fail safe
+					return;
 				}
-				if (sender == "ICADE") {
-					switch (event) {
-					case "A_BUTTON_UP":
-						break;
-					case "B_BUTTON_UP":
-						event = "SWITCH_STEREO";
-						break;
-					case "G_BUTTON_UP":
-						event = "MENU_VISIBLE";
-						break;
-					case "LEFT_BUTTON_UP":
-					case "RIGHT_BUTTON_UP":
-					case "UP_BUTTON_UP":
-					case "DOWN_BUTTON_UP":
-						if (menu_visible) {
-						} else {
-							event = "STOP";
-						}
-						break;
-					case "LEFT_BUTTON_DOWN":
-						if (menu_visible) {
-							event = "DESELECT_ACTIVE_MENU";
-						} else {
-							event = "TURN_LEFT";
-						}
-						break;
-					case "RIGHT_BUTTON_DOWN":
-						if (menu_visible) {
-							event = "SELECT_ACTIVE_MENU";
-						} else {
-							event = "TURN_RIGHT";
-						}
-						break;
-					case "UP_BUTTON_DOWN":
-						if (menu_visible) {
-							event = "BACK2PREVIOUSE_MENU";
-						} else {
-							event = "MOVE_FORWARD";
-						}
-						break;
-					case "DOWN_BUTTON_DOWN":
-						if (menu_visible) {
-							event = "GO2NEXT_MENU";
-						} else {
-							event = "MOVE_BACKWARD";
-						}
-						break;
-					}
+				if(!new_state[key]){//only push
+					return;
 				}
-				plugin.event_handler_act(event);
-			},
-			event_handler_act : function(event) {
-				var params = event.split(" ");
-				switch (params[0]) {
+				var cmd = "";
+				switch(key){
+					case "10_BUTTON_PUSHED":
+						break;
+					case "11_BUTTON_PUSHED":
+						break;
+					case "3_AXIS_PERCENT":
+						if(new_state[key] < -50){
+							cmd = "MOVE_FORWARD";
+						}else if(new_state[key] > 50){
+							cmd = "MOVE_BACKWARD";
+						}else{
+							cmd = "STOP";
+						}
+						break;
+					case "2_AXIS_PERCENT":
+						if(new_state[key] < -50){
+							cmd = "TURN_LEFT";
+						}else if(new_state[key] > 50){
+							cmd = "TURN_RIGHT";
+						}else{
+							cmd = "STOP";
+						}
+						break;
+					//quest touch : 3_BUTTON stick, 4_BUTTON A, 5_BUTTON B
+					case "LEFT_3_BUTTON_PUSHED":
+						if(new_state[key]){
+						}
+						break;
+					case "RIGHT_3_BUTTON_PUSHED":
+						if(new_state[key]){
+						}
+						break;
+					case "RIGHT_3_AXIS_PERCENT":
+						if(new_state[key] < -50){
+							cmd = "MOVE_FORWARD";
+						}else if(new_state[key] > 50){
+							cmd = "MOVE_BACKWARD";
+						}else{
+							cmd = "STOP";
+						}
+						break;
+					case "RIGHT_2_AXIS_PERCENT":
+						if(new_state[key] < -50){
+							cmd = "TURN_LEFT";
+						}else if(new_state[key] > 50){
+							cmd = "TURN_RIGHT";
+						}else{
+							cmd = "STOP";
+						}
+						break;
+				}
+				switch (cmd) {
 				case "MOVE_FORWARD":
 					var cmd = VEHICLE_DOMAIN + "move_forward";
 					m_plugin_host.send_command(cmd);
@@ -132,35 +96,6 @@ var create_plugin = (function() {
 				case "STOP":
 					var cmd = VEHICLE_DOMAIN + "stop";
 					m_plugin_host.send_command(cmd);
-					break;
-				case "SWITCH_STEREO":
-					m_plugin_host.send_command("set_stereo "
-							+ (!stereo_enabled ? "1" : "0"));
-					break;
-				case "MENU_VISIBLE":
-					menu_visible = !menu_visible;
-					m_plugin_host.set_menu_visible(menu_visible);
-					break;
-				case "SELECT_ACTIVE_MENU":
-					m_plugin_host.send_command(CAPTURE_DOMAIN
-							+ "select_active_menu");
-					break;
-				case "DESELECT_ACTIVE_MENU":
-					m_plugin_host.send_command(CAPTURE_DOMAIN
-							+ "deselect_active_menu");
-					break;
-				case "BACK2PREVIOUSE_MENU":
-					m_plugin_host.send_command(CAPTURE_DOMAIN
-							+ "back2previouse_menu");
-					break;
-				case "GO2NEXT_MENU":
-					m_plugin_host.send_command(CAPTURE_DOMAIN + "go2next_menu");
-					break;
-				case "STEREO_ENABLED":
-					stereo_enabled = true;
-					break;
-				case "STEREO_DISABLED":
-					stereo_enabled = false;
 					break;
 				}
 			},
